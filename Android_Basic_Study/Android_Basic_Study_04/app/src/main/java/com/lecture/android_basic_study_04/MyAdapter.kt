@@ -1,19 +1,22 @@
 package com.lecture.android_basic_study_04
 
-import android.util.Log
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lecture.android_basic_study_04.databinding.ItemRecyclerBinding
 
-class MyAdapter() :
-    RecyclerView.Adapter<MyAdapter.ViewHolder>() {
-
-    var data = mutableListOf<Memo>()
-
+class MyAdapter(private val data: MutableList<String>) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
     inner class ViewHolder(private val binding: ItemRecyclerBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(memo: Memo) {
-            binding.textView.text = memo.memo
+        fun bind(item: String) {
+            binding.rcyTxt.text = item
+        }
+        @SuppressLint("NotifyDataSetChanged")
+        fun delete(position: Int) {
+            binding.btnDelete.setOnClickListener {
+                data.removeAt(position)
+                notifyDataSetChanged()
+            }
         }
     }
 
@@ -23,16 +26,12 @@ class MyAdapter() :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val memo = data.get(position)
-        holder.bind(memo)
+        holder.bind(data[position])
+        holder.delete(position)
     }
 
     override fun getItemCount(): Int {
         return data.size
     }
 
-    fun changeData(position: Int) {
-        notifyItemChanged(position)
-        Log.d("Tag", "success")
-    }
 }
