@@ -17,18 +17,15 @@ object RetrofitClient {
     const val URL_MOVIE = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
     const val KEY = "0c53b6a11207950675117cd147bf8245"
 
-    private var okHttpClient: OkHttpClient = OkHttpClient.Builder()
+    var okHttpClient = OkHttpClient.Builder()
         .addInterceptor(httpLoggingInterceptor())
-        .connectTimeout(100, TimeUnit.MINUTES)
-        .readTimeout(100, TimeUnit.SECONDS)
-        .writeTimeout(100, TimeUnit.SECONDS)
-        .build()
 
     fun getInstnace() : Retrofit {
         if(instance == null){
             instance = Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(okHttpClient.build())
                 .build()
         }
         return instance!!
@@ -38,14 +35,15 @@ object RetrofitClient {
         val interceptor = HttpLoggingInterceptor { message ->
             try {
                 val jsonObject = JSONObject(message).optJSONObject("boxOfficeResult")
-                    .optJSONArray("dailyBoxOfficeList")
+                    ?.optJSONArray("dailyBoxOfficeList")
                 for (i in 0 until 5) {
                     val movieObject = jsonObject!!.optJSONObject(i)
                     val rank = movieObject.optString("rank")
                     val movieTitle = movieObject.optString("movieNm")
                     val openDate = movieObject.optString("openDt")
                     val audience = movieObject.optString("audiAcc")
-                    Log.d("Result", "순위: $rank, 영화 제목: $movieTitle, 개봉일: $openDate, 누적 관객수: $audience")
+                    Log.d("Result", "rank: $rank, movie title: $movieTitle, " +
+                            "open date: $openDate, audience: $audience")
                 }
             } catch (e: Exception) {
                 Log.d("Result", message)

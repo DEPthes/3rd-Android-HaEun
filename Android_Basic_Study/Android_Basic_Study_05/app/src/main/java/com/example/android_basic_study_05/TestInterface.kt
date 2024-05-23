@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface TestInterface {
-    @GET("$URL_MOVIE/{key}/{targetDT}/")
+    @GET("$URL_MOVIE")
     suspend fun getMovie(
         @Query("key") key: String,
         @Query("targetDT") targetDT: String
