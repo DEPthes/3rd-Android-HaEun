@@ -1,15 +1,13 @@
-package com.example.myapplication
+package com.example.myapplication.ui.home
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.RoundedCorner
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.myapplication.databinding.ItemNewImagesRvBinding
 import com.example.myapplication.entity.NewPhotoEntity
-import com.google.android.material.shape.CornerSize
 
 class RvNewImagesAdapter : RecyclerView.Adapter<RvNewImagesAdapter.ViewHolder>() {
     var list = listOf<NewPhotoEntity>()

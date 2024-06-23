@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.myapplication.RvNewImagesAdapter
 import com.example.myapplication.databinding.FragmentMainBinding
 import com.example.myapplication.entity.NewPhotoEntity
-import com.example.myapplication.utils.photos.MainViewModel
 import com.example.myapplication.utils.UiState
 import android.util.Log
 

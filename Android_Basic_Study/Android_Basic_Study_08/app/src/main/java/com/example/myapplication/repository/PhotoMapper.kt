@@ -1,6 +1,6 @@
-package com.example.myapplication.utils
+package com.example.myapplication.repository
 
-import com.example.myapplication.data.UnsplashDTOItem
+import com.example.myapplication.data.dto.UnsplashDTOItem
 import com.example.myapplication.entity.NewPhotoEntity
 
 object PhotoMapper {

@@ -1,7 +1,4 @@
-package com.example.myapplication.data
-
-import com.example.myapplication.data.LinksX
-import com.example.myapplication.data.ProfileImage
+package com.example.myapplication.data.dto
 
 data class User(
     val bio: String,

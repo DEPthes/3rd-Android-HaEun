@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.card
 
 import android.os.Bundle
 import android.util.Log
@@ -7,17 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication.R
-import com.example.myapplication.RvNewImagesAdapter
-import com.example.myapplication.RvRandomImagesAdapter
 import com.example.myapplication.databinding.FragmentCardBinding
-import com.example.myapplication.entity.NewPhotoEntity
-import com.example.myapplication.utils.photos.MainViewModel
 import com.example.myapplication.utils.UiState
-import com.example.myapplication.utils.photos.RandomPhotoViewModel
 import kotlin.math.abs
 
 class CardFragment : Fragment() {

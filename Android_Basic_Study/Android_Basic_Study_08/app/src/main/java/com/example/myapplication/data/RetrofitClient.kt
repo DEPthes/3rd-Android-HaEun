@@ -1,5 +1,6 @@
-package com.example.myapplication.utils
+package com.example.myapplication.data
 
+import com.example.myapplication.utils.PrettyJsonLogger
 import com.facebook.shimmer.BuildConfig
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient

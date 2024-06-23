@@ -1,12 +1,9 @@
-package com.example.myapplication.utils.photos
+package com.example.myapplication.repository
 
 import android.util.Log
-import com.example.myapplication.BuildConfig
 import com.example.myapplication.entity.NewPhotoEntity
-import com.example.myapplication.utils.PhotoMapper
-import com.example.myapplication.utils.RandomPhotoMapper
-import com.example.myapplication.utils.RetrofitClient
-import com.example.myapplication.utils.services.UnsplashService
+import com.example.myapplication.data.RetrofitClient
+import com.example.myapplication.data.services.UnsplashService
 import org.json.JSONObject
 
 class PhotoRepositoryImpl : PhotoRepository {

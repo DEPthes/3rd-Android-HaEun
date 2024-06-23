@@ -1,4 +1,4 @@
-package com.example.myapplication.utils.photos
+package com.example.myapplication.repository
 
 import com.example.myapplication.entity.NewPhotoEntity
 

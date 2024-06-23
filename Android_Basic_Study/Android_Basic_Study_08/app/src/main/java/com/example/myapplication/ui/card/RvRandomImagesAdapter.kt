@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.ui.card
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,7 +23,7 @@ class RvRandomImagesAdapter : RecyclerView.Adapter<RvRandomImagesAdapter.RandomV
         return RandomViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RvRandomImagesAdapter.RandomViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RandomViewHolder, position: Int) {
         holder.bind(list[position])
     }
 

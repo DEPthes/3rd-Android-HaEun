@@ -1,4 +1,4 @@
-package com.example.myapplication.utils
+package com.example.myapplication.data
 
 import com.example.myapplication.BuildConfig
 import okhttp3.Interceptor

@@ -1,4 +1,4 @@
-package com.example.myapplication.data
+package com.example.myapplication.data.dto
 
 data class UnsplashDTOItem(
     val blur_hash: String,

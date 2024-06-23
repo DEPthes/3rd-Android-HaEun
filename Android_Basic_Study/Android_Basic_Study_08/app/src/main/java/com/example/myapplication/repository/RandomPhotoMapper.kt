@@ -1,6 +1,6 @@
-package com.example.myapplication.utils
+package com.example.myapplication.repository
 
-import com.example.myapplication.data.RandomPhotoDTO
+import com.example.myapplication.data.dto.RandomPhotoDTO
 import com.example.myapplication.entity.NewPhotoEntity
 
 object RandomPhotoMapper {

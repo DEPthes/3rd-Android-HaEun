@@ -1,10 +1,9 @@
-package com.example.myapplication.utils.services
+package com.example.myapplication.data.services
 
-import com.example.myapplication.data.RandomPhotoDTO
-import com.example.myapplication.data.UnsplashDTOItem
+import com.example.myapplication.data.dto.RandomPhotoDTO
+import com.example.myapplication.data.dto.UnsplashDTOItem
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Query
 
 interface UnsplashService {

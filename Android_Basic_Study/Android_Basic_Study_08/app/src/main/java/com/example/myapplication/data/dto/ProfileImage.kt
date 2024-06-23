@@ -1,4 +1,4 @@
-package com.example.myapplication.data
+package com.example.myapplication.data.dto
 
 data class ProfileImage(
     val large: String,

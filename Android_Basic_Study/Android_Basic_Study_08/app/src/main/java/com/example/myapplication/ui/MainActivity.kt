@@ -1,11 +1,12 @@
-package com.example.myapplication
+package com.example.myapplication.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
-import com.example.myapplication.ui.CardFragment
-import com.example.myapplication.ui.MainFragment
+import com.example.myapplication.ui.card.CardFragment
+import com.example.myapplication.ui.home.MainFragment
 
 class MainActivity : AppCompatActivity() {
 
