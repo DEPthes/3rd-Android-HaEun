@@ -1,10 +1,11 @@
-package com.example.myapplication.utils
+package com.example.myapplication.utils.photos
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.entity.NewPhotoEntity
+import com.example.myapplication.utils.UiState
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {

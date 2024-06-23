@@ -1,4 +1,4 @@
-package com.example.myapplication.utils
+package com.example.myapplication.utils.photos
 
 import com.example.myapplication.entity.NewPhotoEntity
 
@@ -8,4 +8,8 @@ interface PhotoRepository {
         per_page: Int,
         order_by: String
     ): Result<List<NewPhotoEntity>>
+
+    suspend fun getRandomPhoto(
+        count: Int
+    ) : Result<List<NewPhotoEntity>>
 }

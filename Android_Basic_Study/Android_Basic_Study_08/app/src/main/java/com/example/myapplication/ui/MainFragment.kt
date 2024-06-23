@@ -10,15 +10,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.RvNewImagesAdapter
 import com.example.myapplication.databinding.FragmentMainBinding
 import com.example.myapplication.entity.NewPhotoEntity
-import com.example.myapplication.utils.MainViewModel
+import com.example.myapplication.utils.photos.MainViewModel
 import com.example.myapplication.utils.UiState
 import android.util.Log
-import com.example.myapplication.utils.PhotoMapper
 
 class MainFragment : Fragment() {
     // binding
     lateinit var binding: FragmentMainBinding
     private val mainViewModel: MainViewModel by viewModels()
+    private lateinit var newImagesAdapter: RvNewImagesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,8 +26,9 @@ class MainFragment : Fragment() {
     ): View? {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         val data = mutableListOf<NewPhotoEntity>()
+        Log.d("BIND", "$data")
 
-        val newImagesAdapter = RvNewImagesAdapter()
+        newImagesAdapter = RvNewImagesAdapter()
         newImagesAdapter.list = data
         binding.newImageRv.adapter = newImagesAdapter
         binding.newImageRv.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -42,13 +43,12 @@ class MainFragment : Fragment() {
         mainViewModel.photoState.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Failure -> {
-                    Log.d("TAG1", "사진 로딩 실패")
+                    Log.d("OBS", "사진 로딩 실패")
                 }
-
                 is UiState.Loading -> {}
                 is UiState.Success -> {
-                    RvNewImagesAdapter().setData(it.data)
-                    Log.d("TAG1", "성공")
+                    newImagesAdapter.setData(it.data)
+                    Log.d("OBS", "성공")
                 }
             }
         }

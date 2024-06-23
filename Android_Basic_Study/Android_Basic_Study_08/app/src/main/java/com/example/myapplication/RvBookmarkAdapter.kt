@@ -9,7 +9,7 @@ class RvBookmarkAdapter : RecyclerView.Adapter<RvBookmarkAdapter.ViewHolder>() {
     var list = mutableListOf<String>()
     inner class ViewHolder(private val binding : ItemBookmarkRvBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(img : Int) {
-            binding.rvImg.imageAlpha = R.drawable.cookie
+            binding.bookmarkRvImg.imageAlpha = R.drawable.cookie
         }
     }
     // onBindViewHolder 보다 먼저 실행

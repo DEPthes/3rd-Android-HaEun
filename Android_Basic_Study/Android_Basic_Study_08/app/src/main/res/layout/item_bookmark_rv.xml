@@ -2,7 +2,7 @@
 <ImageView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rv_img"
+    android:id="@+id/bookmark_rv_img"
     android:layout_width="wrap_content"
     android:layout_height="170dp"
     android:scaleType="fitXY"

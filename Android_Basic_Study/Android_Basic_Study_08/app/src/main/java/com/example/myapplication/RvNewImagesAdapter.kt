@@ -2,18 +2,24 @@ package com.example.myapplication
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.RoundedCorner
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.myapplication.databinding.ItemNewImagesRvBinding
 import com.example.myapplication.entity.NewPhotoEntity
+import com.google.android.material.shape.CornerSize
 
 class RvNewImagesAdapter : RecyclerView.Adapter<RvNewImagesAdapter.ViewHolder>() {
     var list = listOf<NewPhotoEntity>()
     inner class ViewHolder(private val binding : ItemNewImagesRvBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : NewPhotoEntity) {
-            Log.d("TAG", "testing")
-            Glide.with(binding.rvImg).load(item.thumb).into(binding.rvImg)
+            Log.d("BIND", "testing")
+            Glide.with(binding.photoRvImg)
+                .load(item.thumb)
+                .transform(RoundedCorners(40))
+                .into(binding.photoRvImg)
             binding.rvId.text = item.description
         }
     }
