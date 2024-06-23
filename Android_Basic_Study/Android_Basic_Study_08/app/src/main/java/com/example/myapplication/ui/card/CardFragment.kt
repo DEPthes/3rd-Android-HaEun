@@ -24,7 +24,13 @@ class CardFragment : Fragment() {
     ): View? {
         binding = FragmentCardBinding.inflate(inflater, container, false)
 
-        randomImagesAdapter = RvRandomImagesAdapter()
+        randomImagesAdapter = RvRandomImagesAdapter().apply {
+            setItemClickListener(object : RvRandomImagesAdapter.OnItemClickListener{
+                override fun onClick(position: Int) {
+                    binding.viewPager.currentItem = position + 1
+                }
+            })
+        }
         randomImagesAdapter.list = mutableListOf()
         binding.viewPager.adapter = randomImagesAdapter
         binding.viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
