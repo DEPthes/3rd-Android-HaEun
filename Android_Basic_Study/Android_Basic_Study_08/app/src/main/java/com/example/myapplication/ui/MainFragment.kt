@@ -26,10 +26,6 @@ class MainFragment : Fragment() {
     ): View? {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         val data = mutableListOf<NewPhotoEntity>()
-//        val bookmarkAdapter = RvBookmarkAdapter()
-//        bookmarkAdapter.list = data
-//        binding.bookmarkRv.adapter = bookmarkAdapter
-//        binding.bookmarkRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         val newImagesAdapter = RvNewImagesAdapter()
         newImagesAdapter.list = data
