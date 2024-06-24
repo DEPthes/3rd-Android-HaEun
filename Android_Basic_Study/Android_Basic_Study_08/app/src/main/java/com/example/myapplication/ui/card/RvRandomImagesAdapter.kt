@@ -17,7 +17,6 @@ class RvRandomImagesAdapter : RecyclerView.Adapter<RvRandomImagesAdapter.RandomV
     var list = mutableListOf<NewPhotoEntity>()
     inner class RandomViewHolder(private val binding : ItemRandomImagesRvBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : NewPhotoEntity) {
-            Log.d("BIND2", "testing")
             Glide.with(binding.cardImg).load(item.thumb).into(binding.cardImg)
 
             binding.btnBookmark.setOnClickListener {

@@ -13,12 +13,15 @@ class RvNewImagesAdapter : RecyclerView.Adapter<RvNewImagesAdapter.ViewHolder>()
     var list = mutableListOf<NewPhotoEntity>()
     inner class ViewHolder(private val binding : ItemNewImagesRvBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : NewPhotoEntity) {
-            Log.d("BIND", "testing")
             Glide.with(binding.photoRvImg)
                 .load(item.thumb)
                 .transform(RoundedCorners(40))
                 .into(binding.photoRvImg)
             binding.rvId.text = item.description
+
+            itemView.setOnClickListener {
+                itemClickListener.onClick(item.id)
+            }
         }
     }
     // onBindViewHolder 보다 먼저 실행
@@ -39,5 +42,14 @@ class RvNewImagesAdapter : RecyclerView.Adapter<RvNewImagesAdapter.ViewHolder>()
         Log.d("setData", "setData")
         list.addAll(item)
         notifyItemRangeInserted(itemCount, item.size)
+    }
+    interface OnItemClickListener{
+        fun onClick(id: String)
+    }
+
+    private lateinit var itemClickListener: OnItemClickListener
+
+    fun setItemClickListener(onItemClickListener: OnItemClickListener){
+        this.itemClickListener = onItemClickListener
     }
 }

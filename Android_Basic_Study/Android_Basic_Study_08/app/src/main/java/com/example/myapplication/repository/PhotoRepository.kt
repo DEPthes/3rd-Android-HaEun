@@ -1,5 +1,7 @@
 package com.example.myapplication.repository
 
+import android.nfc.Tag
+import com.example.myapplication.entity.DetailPhotoEntity
 import com.example.myapplication.entity.NewPhotoEntity
 
 interface PhotoRepository {
@@ -12,4 +14,8 @@ interface PhotoRepository {
     suspend fun getRandomPhoto(
         count: Int
     ) : Result<List<NewPhotoEntity>>
+
+    suspend fun getPhotoDetail(
+        id: String
+    ) : Result<DetailPhotoEntity>
 }

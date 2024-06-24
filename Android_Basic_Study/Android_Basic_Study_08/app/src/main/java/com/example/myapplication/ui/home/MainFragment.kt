@@ -11,11 +11,13 @@ import com.example.myapplication.databinding.FragmentMainBinding
 import com.example.myapplication.entity.NewPhotoEntity
 import com.example.myapplication.utils.UiState
 import android.util.Log
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.data.db.BookmarkDAO
 import com.example.myapplication.data.db.BookmarkEntity
 import com.example.myapplication.ui.GlobalApplication
+import com.example.myapplication.ui.detail.DetailFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,7 +38,13 @@ class MainFragment : Fragment() {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         val data = mutableListOf<NewPhotoEntity>()
         // adapter 연결
-        newImagesAdapter = RvNewImagesAdapter()
+        newImagesAdapter = RvNewImagesAdapter().apply {
+            setItemClickListener(object : RvNewImagesAdapter.OnItemClickListener{
+                override fun onClick(id: String) {
+                    DetailFragment(id).show(requireActivity().supportFragmentManager, "")
+                }
+            })
+        }
         newImagesAdapter.list = data
         binding.newImageRv.adapter = newImagesAdapter
         binding.newImageRv.layoutManager = GridLayoutManager(requireContext(), 2)
