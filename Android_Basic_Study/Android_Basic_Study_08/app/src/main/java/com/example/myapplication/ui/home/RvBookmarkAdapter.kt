@@ -3,14 +3,21 @@ package com.example.myapplication.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.myapplication.R
+import com.example.myapplication.data.db.BookmarkEntity
 import com.example.myapplication.databinding.ItemBookmarkRvBinding
+import com.example.myapplication.entity.NewPhotoEntity
 
 class RvBookmarkAdapter : RecyclerView.Adapter<RvBookmarkAdapter.ViewHolder>() {
-    var list = mutableListOf<String>()
+    var list = mutableListOf<BookmarkEntity>()
     inner class ViewHolder(private val binding : ItemBookmarkRvBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(img : Int) {
-            binding.bookmarkRvImg.imageAlpha = R.drawable.cookie
+        fun bind(item : BookmarkEntity) {
+            Glide.with(binding.bookmarkRvImg)
+                .load(item.url)
+                .transform(RoundedCorners(80))
+                .into(binding.bookmarkRvImg)
         }
     }
     // onBindViewHolder 보다 먼저 실행
@@ -24,16 +31,11 @@ class RvBookmarkAdapter : RecyclerView.Adapter<RvBookmarkAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(R.drawable.cookie)
+        holder.bind(list[position])
     }
 
-    fun add(item : String) {
-        list.add(item)
+    fun add(item : List<BookmarkEntity>) {
+        list.addAll(item)
         notifyItemInserted(itemCount)
-    }
-
-    fun update(newList: List<String>) {
-        list = newList.toMutableList()
-        notifyDataSetChanged()
     }
 }
