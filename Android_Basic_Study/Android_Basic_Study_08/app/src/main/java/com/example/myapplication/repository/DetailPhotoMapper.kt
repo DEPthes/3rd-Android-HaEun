@@ -14,7 +14,7 @@ object DetailPhotoMapper {
                 thumb = this.urls.thumb,
                 description = this.description ?: "",
                 tags = tags,
-                downloads = this.links.download_location
+                downloads = this.links.download
             )
         }
     }

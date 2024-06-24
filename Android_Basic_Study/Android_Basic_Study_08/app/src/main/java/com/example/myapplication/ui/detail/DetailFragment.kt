@@ -1,13 +1,18 @@
 package com.example.myapplication.ui.detail
 
+import android.app.DownloadManager
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -41,16 +46,20 @@ class DetailFragment(private val id: String) : DialogFragment() {
             else detailViewModel.deleteBookmark(id)
         }
 
-        binding.btnDownload.setOnClickListener {
-
-        }
-
         observer()
         detailViewModel.getDetailPhotos(id)
         detailViewModel.checkBookmark(id)
 
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.btnDownload.setOnClickListener {
+            useDownloadManager()
+        }
+    }
+
     private fun observer() {
         detailViewModel.photoState.observe(viewLifecycleOwner) {
             when (it) {
@@ -92,5 +101,18 @@ class DetailFragment(private val id: String) : DialogFragment() {
                 }
             }
         }
+    }
+    private fun useDownloadManager(){
+        val currentTimeMillis = System.currentTimeMillis()
+        val fileName = currentTimeMillis.toString()
+
+        val request = DownloadManager.Request(Uri.parse(detailViewModel.downloadLink))
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            .setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, fileName)
+
+        val downloadManager = requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        downloadManager.enqueue(request)
+
+        Toast.makeText(requireContext(), "다운로드 완료", Toast.LENGTH_SHORT).show()
     }
 }
