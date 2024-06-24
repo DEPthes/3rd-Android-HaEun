@@ -12,6 +12,7 @@ import com.example.myapplication.entity.NewPhotoEntity
 import com.example.myapplication.utils.UiState
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.data.db.BookmarkDAO
 import com.example.myapplication.data.db.BookmarkEntity
 import com.example.myapplication.ui.GlobalApplication
@@ -25,6 +26,8 @@ class MainFragment : Fragment() {
     private val mainViewModel: MainViewModel by viewModels()
     private lateinit var newImagesAdapter: RvNewImagesAdapter
     private lateinit var bookmarkAdapter: RvBookmarkAdapter
+    private var page = 1 // 초기 페이지
+    private var isLoading = false // API 호출 중 여부
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +41,7 @@ class MainFragment : Fragment() {
         binding.newImageRv.adapter = newImagesAdapter
         binding.newImageRv.layoutManager = GridLayoutManager(requireContext(), 2)
         observer()
-        mainViewModel.getPhotos()
+        mainViewModel.getPhotos(page)
 
         // bookmark adapter 연결
         bookmarkAdapter = RvBookmarkAdapter()
@@ -46,13 +49,48 @@ class MainFragment : Fragment() {
         binding.bookmarkRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.bookmarkRv.addItemDecoration(HorizontalSpaceItemDecoration())
         CoroutineScope(Dispatchers.IO).launch {
-            val data = GlobalApplication.db.getBookmarkDAO().getBookmarkList()
+            val dataList = GlobalApplication.db.getBookmarkDAO().getBookmarkList()
             launch(Dispatchers.Main) {
-                bookmarkAdapter.add(data)
+                bookmarkAdapter.add(dataList)
+                if (dataList.isEmpty()) {
+                    binding.bookmark.visibility = View.GONE
+                    binding.bookmarkRv.visibility = View.GONE
+                }
             }
         }
 
+        setupRecyclerView()
+
         return binding.root
+    }
+
+    private fun setupRecyclerView() {
+        val layoutManager = binding.newImageRv.layoutManager as GridLayoutManager
+        // 스크롤 리스너 설정
+        binding.newImageRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                Log.d("isLoading", "$isLoading")
+                Log.d("Page", "$page")
+
+                // 스크롤이 끝에 도달하면 다음 페이지 데이터 로드
+                if (!isLoading && layoutManager.findLastCompletelyVisibleItemPosition() == newImagesAdapter.itemCount - 1
+                    && firstVisibleItemPosition >= 0) {
+                    loadNextPage()
+                }
+
+                Log.d("isLoading", "$isLoading")
+                Log.d("Page", "$page")
+            }
+        })
+    }
+
+    private fun loadNextPage() {
+        isLoading = true
+        mainViewModel.getPhotos(page)
+        page++
     }
 
     private fun observer() {
@@ -60,11 +98,13 @@ class MainFragment : Fragment() {
             when (it) {
                 is UiState.Failure -> {
                     Log.d("OBS", "사진 로딩 실패")
+                    isLoading = false
                 }
                 is UiState.Loading -> {}
                 is UiState.Success -> {
                     newImagesAdapter.setData(it.data)
                     Log.d("OBS", "성공")
+                    isLoading = false
                 }
             }
         }

@@ -14,14 +14,12 @@ class PhotoRepositoryImpl : PhotoRepository {
         order_by: String
     ): Result<List<NewPhotoEntity>> {
         val res =
-            service.getPhoto(10, 10, "latest")
+            service.getPhoto(page, per_page, order_by)
         return if (res.isSuccessful) {
             if (res.body() == null) {
-                Log.d("RES", "response body is null")
                 Result.success(listOf())
             }
             else {
-                Log.d("RES", "response body is not null")
                 Log.d("RES", "${PhotoMapper.mapperToResponseEntity(res.body()!!)}")
                 Result.success(PhotoMapper.mapperToResponseEntity(res.body()!!))
             }
@@ -37,11 +35,9 @@ class PhotoRepositoryImpl : PhotoRepository {
             service.getRandomPhoto(count)
         return if (res.isSuccessful) {
             if (res.body() == null) {
-                Log.d("RES", "response body is null")
                 Result.success(listOf())
             }
             else {
-                Log.d("RES", "response body is not null")
                 Log.d("RES", "${RandomPhotoMapper.mapperToResponseEntity(res.body()!!)}")
                 Result.success(RandomPhotoMapper.mapperToResponseEntity(res.body()!!))
             }

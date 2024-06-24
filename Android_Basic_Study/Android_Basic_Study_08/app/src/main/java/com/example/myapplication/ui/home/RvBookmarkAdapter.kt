@@ -16,7 +16,7 @@ class RvBookmarkAdapter : RecyclerView.Adapter<RvBookmarkAdapter.ViewHolder>() {
         fun bind(item : BookmarkEntity) {
             Glide.with(binding.bookmarkRvImg)
                 .load(item.url)
-                .transform(RoundedCorners(80))
+                .transform(RoundedCorners(120))
                 .into(binding.bookmarkRvImg)
         }
     }

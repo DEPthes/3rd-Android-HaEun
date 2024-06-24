@@ -10,7 +10,7 @@ import com.example.myapplication.databinding.ItemNewImagesRvBinding
 import com.example.myapplication.entity.NewPhotoEntity
 
 class RvNewImagesAdapter : RecyclerView.Adapter<RvNewImagesAdapter.ViewHolder>() {
-    var list = listOf<NewPhotoEntity>()
+    var list = mutableListOf<NewPhotoEntity>()
     inner class ViewHolder(private val binding : ItemNewImagesRvBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : NewPhotoEntity) {
             Log.d("BIND", "testing")
@@ -37,7 +37,7 @@ class RvNewImagesAdapter : RecyclerView.Adapter<RvNewImagesAdapter.ViewHolder>()
 
     fun setData(item : List<NewPhotoEntity>) {
         Log.d("setData", "setData")
-        list = item
+        list.addAll(item)
         notifyItemRangeInserted(itemCount, item.size)
     }
 }

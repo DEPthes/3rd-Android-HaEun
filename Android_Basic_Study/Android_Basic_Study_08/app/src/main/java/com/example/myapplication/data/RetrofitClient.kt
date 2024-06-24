@@ -13,7 +13,7 @@ object RetrofitClient {
     private var instance: Retrofit? = null
     private val gson = GsonBuilder().setLenient().create()
 
-    private val loggingInterceptor = if (BuildConfig.DEBUG) {
+    private val loggingInterceptor = if (!BuildConfig.DEBUG) {
         HttpLoggingInterceptor(PrettyJsonLogger()).setLevel(
             HttpLoggingInterceptor.Level.BODY)
     } else {

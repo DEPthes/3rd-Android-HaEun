@@ -15,12 +15,12 @@ class MainViewModel : ViewModel() {
     private val _photoState = MutableLiveData<UiState<List<NewPhotoEntity>>>(UiState.Loading)
     val photoState : LiveData<UiState<List<NewPhotoEntity>>> get() = _photoState
 
-    fun getPhotos() {
+    fun getPhotos(page: Int) {
         _photoState.value = UiState.Loading
 
         viewModelScope.launch {
             try {
-                photoRepositoryImpl.getPhoto(10, 10, "latest").onSuccess{
+                photoRepositoryImpl.getPhoto(page, 10, "latest").onSuccess{
                     _photoState.value = UiState.Success(it)
                 }.onFailure {
                     _photoState.value = UiState.Failure(it.message)
