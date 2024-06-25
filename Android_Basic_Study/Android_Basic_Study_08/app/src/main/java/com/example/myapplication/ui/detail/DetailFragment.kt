@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -39,13 +40,6 @@ class DetailFragment(private val id: String) : DialogFragment() {
     ): View? {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
 
-        binding.btnDetailBookmark.setOnClickListener {
-            if (binding.btnDetailBookmark.alpha == 0.3f) {
-                detailViewModel.addBookmark(id)
-            }
-            else detailViewModel.deleteBookmark(id)
-        }
-
         observer()
         detailViewModel.getDetailPhotos(id)
         detailViewModel.checkBookmark(id)
@@ -55,8 +49,21 @@ class DetailFragment(private val id: String) : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.btnDetailBookmark.setOnClickListener {
+            if (binding.btnDetailBookmark.alpha == 0.3f) {
+                detailViewModel.addBookmark(id)
+            }
+            else detailViewModel.deleteBookmark(id)
+        }
+
         binding.btnDownload.setOnClickListener {
             useDownloadManager()
+        }
+
+        binding.btnClose.setOnClickListener {
+            bookmarkClickListener.onBookmarkClick()
+            dismiss()
         }
     }
 
@@ -114,5 +121,15 @@ class DetailFragment(private val id: String) : DialogFragment() {
         downloadManager.enqueue(request)
 
         Toast.makeText(requireContext(), "다운로드 완료", Toast.LENGTH_SHORT).show()
+    }
+
+    interface OnBookmarkClickListener{
+        fun onBookmarkClick()
+    }
+
+    private lateinit var bookmarkClickListener: OnBookmarkClickListener
+
+    fun setBookmarkClickListener(onItemClickListener: OnBookmarkClickListener){
+        this.bookmarkClickListener = onItemClickListener
     }
 }

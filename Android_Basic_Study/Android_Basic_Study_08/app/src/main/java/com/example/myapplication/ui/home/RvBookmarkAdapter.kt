@@ -11,13 +11,17 @@ import com.example.myapplication.databinding.ItemBookmarkRvBinding
 import com.example.myapplication.entity.NewPhotoEntity
 
 class RvBookmarkAdapter : RecyclerView.Adapter<RvBookmarkAdapter.ViewHolder>() {
-    var list = mutableListOf<BookmarkEntity>()
+    var list = listOf<BookmarkEntity>()
     inner class ViewHolder(private val binding : ItemBookmarkRvBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : BookmarkEntity) {
             Glide.with(binding.bookmarkRvImg)
                 .load(item.url)
-                .transform(RoundedCorners(120))
+                .transform(RoundedCorners(80))
                 .into(binding.bookmarkRvImg)
+
+            itemView.setOnClickListener {
+                bookmarkItemClickListener.onBookmarkItemClick(item.id)
+            }
         }
     }
     // onBindViewHolder 보다 먼저 실행
@@ -35,7 +39,16 @@ class RvBookmarkAdapter : RecyclerView.Adapter<RvBookmarkAdapter.ViewHolder>() {
     }
 
     fun add(item : List<BookmarkEntity>) {
-        list.addAll(item)
-        notifyItemInserted(itemCount)
+        list = item
+        notifyDataSetChanged()
+    }
+    interface OnBookmarkItemClickListener{
+        fun onBookmarkItemClick(id: String)
+    }
+
+    private lateinit var bookmarkItemClickListener: OnBookmarkItemClickListener
+
+    fun setBookmarkItemClickListener(onBookmarkItemClickListener: OnBookmarkItemClickListener){
+        this.bookmarkItemClickListener = onBookmarkItemClickListener
     }
 }

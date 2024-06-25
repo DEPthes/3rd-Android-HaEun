@@ -41,7 +41,13 @@ class MainFragment : Fragment() {
         newImagesAdapter = RvNewImagesAdapter().apply {
             setItemClickListener(object : RvNewImagesAdapter.OnItemClickListener{
                 override fun onClick(id: String) {
-                    DetailFragment(id).show(requireActivity().supportFragmentManager, "")
+                    DetailFragment(id).apply {
+                        setBookmarkClickListener(object : DetailFragment.OnBookmarkClickListener{
+                            override fun onBookmarkClick() {
+                                mainViewModel.updateBookmark()
+                            }
+                        })
+                    }.show(requireActivity().supportFragmentManager, "")
                 }
             })
         }
@@ -52,7 +58,19 @@ class MainFragment : Fragment() {
         mainViewModel.getPhotos(page)
 
         // bookmark adapter 연결
-        bookmarkAdapter = RvBookmarkAdapter()
+        bookmarkAdapter = RvBookmarkAdapter().apply {
+            setBookmarkItemClickListener(object : RvBookmarkAdapter.OnBookmarkItemClickListener{
+                override fun onBookmarkItemClick(id: String) {
+                    DetailFragment(id).apply {
+                        setBookmarkClickListener(object : DetailFragment.OnBookmarkClickListener{
+                            override fun onBookmarkClick() {
+                                mainViewModel.updateBookmark()
+                            }
+                        })
+                    }.show(requireActivity().supportFragmentManager, "")
+                }
+            })
+        }
         binding.bookmarkRv.adapter = bookmarkAdapter
         binding.bookmarkRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.bookmarkRv.addItemDecoration(HorizontalSpaceItemDecoration())
@@ -113,6 +131,26 @@ class MainFragment : Fragment() {
                     newImagesAdapter.setData(it.data)
                     Log.d("OBS", "성공")
                     isLoading = false
+                }
+            }
+        }
+        mainViewModel.bookmarkState.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Failure -> {
+                    Log.d("OBS", "북마크 갱신 실패")
+                }
+                is UiState.Loading -> {}
+                is UiState.Success -> {
+                    if (it.data.isEmpty()) {
+                        binding.bookmark.visibility = View.GONE
+                        binding.bookmarkRv.visibility = View.GONE
+                    }
+                    else {
+                        binding.bookmark.visibility = View.VISIBLE
+                        binding.bookmarkRv.visibility = View.VISIBLE
+                    }
+                    bookmarkAdapter.add(it.data)
+                    Log.d("OBS", "북마크 갱신 성공")
                 }
             }
         }

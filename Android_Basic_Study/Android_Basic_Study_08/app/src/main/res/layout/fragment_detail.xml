@@ -12,23 +12,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        >
+        tools:layout_editor_absoluteX="0dp">
+
+        <ImageButton
+            android:id="@+id/btnClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:src="@drawable/ic_close" />
 
         <ImageButton
             android:id="@+id/btn_detail_bookmark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:background="@drawable/ic_bookmark"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/ic_bookmark" />
 
         <ImageButton
             android:id="@+id/btn_download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:background="@drawable/ic_download"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/ic_download" />
 
     </Toolbar>
 
