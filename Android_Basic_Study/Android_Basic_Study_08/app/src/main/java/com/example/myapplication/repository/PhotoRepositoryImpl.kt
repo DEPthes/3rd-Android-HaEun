@@ -1,6 +1,5 @@
 package com.example.myapplication.repository
 
-import android.nfc.Tag
 import android.util.Log
 import com.example.myapplication.entity.NewPhotoEntity
 import com.example.myapplication.data.RetrofitClient

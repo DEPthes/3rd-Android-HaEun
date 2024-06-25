@@ -20,9 +20,9 @@ class DetailPhotoViewModel : ViewModel() {
 
     private lateinit var bookmarkUrl : String
     lateinit var downloadLink : String
-    lateinit var userName : String
-    lateinit var des : String
-    lateinit var tags : List<String>
+    private lateinit var userName : String
+    private lateinit var des : String
+    private lateinit var tags : List<String>
 
     fun getDetailPhotos(id: String) {
         _photoState.value = UiState.Loading
@@ -51,10 +51,11 @@ class DetailPhotoViewModel : ViewModel() {
     val bookmarkState get() = _bookmarkState
     fun addBookmark(id: String) {
         _bookmarkState.value = UiState.Loading
-
+        // Dispatchers.IO => DB 접근할 때 사용
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 GlobalApplication.db.getBookmarkDAO().addBookmark(BookmarkEntity(id, bookmarkUrl))
+                // Dispatchers.Main => Main Thread 에 접근할 때 사용
                 launch(Dispatchers.Main) {
                     _bookmarkState.value = UiState.Success(true)
                 }

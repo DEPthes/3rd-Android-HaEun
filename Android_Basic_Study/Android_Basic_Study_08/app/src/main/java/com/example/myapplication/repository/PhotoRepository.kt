@@ -1,6 +1,5 @@
 package com.example.myapplication.repository
 
-import android.nfc.Tag
 import com.example.myapplication.entity.DetailPhotoEntity
 import com.example.myapplication.entity.NewPhotoEntity
 

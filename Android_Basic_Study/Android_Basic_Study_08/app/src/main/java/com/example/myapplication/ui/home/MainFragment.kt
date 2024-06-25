@@ -11,11 +11,8 @@ import com.example.myapplication.databinding.FragmentMainBinding
 import com.example.myapplication.entity.NewPhotoEntity
 import com.example.myapplication.utils.UiState
 import android.util.Log
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.data.db.BookmarkDAO
-import com.example.myapplication.data.db.BookmarkEntity
 import com.example.myapplication.ui.GlobalApplication
 import com.example.myapplication.ui.detail.DetailFragment
 import kotlinx.coroutines.CoroutineScope
@@ -43,10 +40,12 @@ class MainFragment : Fragment() {
                 override fun onClick(id: String) {
                     DetailFragment(id).apply {
                         setBookmarkClickListener(object : DetailFragment.OnBookmarkClickListener{
+                            // 북마크 갱신
                             override fun onBookmarkClick() {
                                 mainViewModel.updateBookmark()
                             }
                         })
+                        // 얘를 해줘야 fragment 가 보임
                     }.show(requireActivity().supportFragmentManager, "")
                 }
             })
@@ -63,6 +62,7 @@ class MainFragment : Fragment() {
                 override fun onBookmarkItemClick(id: String) {
                     DetailFragment(id).apply {
                         setBookmarkClickListener(object : DetailFragment.OnBookmarkClickListener{
+                            // 북마크 갱신
                             override fun onBookmarkClick() {
                                 mainViewModel.updateBookmark()
                             }
@@ -78,10 +78,6 @@ class MainFragment : Fragment() {
             val dataList = GlobalApplication.db.getBookmarkDAO().getBookmarkList()
             launch(Dispatchers.Main) {
                 bookmarkAdapter.add(dataList)
-                if (dataList.isEmpty()) {
-                    binding.bookmark.visibility = View.GONE
-                    binding.bookmarkRv.visibility = View.GONE
-                }
             }
         }
 
@@ -90,6 +86,7 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    // 무한 스크롤 위한 작업
     private fun setupRecyclerView() {
         val layoutManager = binding.newImageRv.layoutManager as GridLayoutManager
         // 스크롤 리스너 설정
@@ -97,22 +94,14 @@ class MainFragment : Fragment() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-
-                Log.d("isLoading", "$isLoading")
-                Log.d("Page", "$page")
-
                 // 스크롤이 끝에 도달하면 다음 페이지 데이터 로드
                 if (!isLoading && layoutManager.findLastCompletelyVisibleItemPosition() == newImagesAdapter.itemCount - 1
                     && firstVisibleItemPosition >= 0) {
                     loadNextPage()
                 }
-
-                Log.d("isLoading", "$isLoading")
-                Log.d("Page", "$page")
             }
         })
     }
-
     private fun loadNextPage() {
         isLoading = true
         mainViewModel.getPhotos(page)
@@ -120,6 +109,7 @@ class MainFragment : Fragment() {
     }
 
     private fun observer() {
+        // 최신 이미지 로드
         mainViewModel.photoState.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Failure -> {
@@ -134,6 +124,8 @@ class MainFragment : Fragment() {
                 }
             }
         }
+
+        // 북마크 갱신
         mainViewModel.bookmarkState.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Failure -> {
@@ -141,6 +133,7 @@ class MainFragment : Fragment() {
                 }
                 is UiState.Loading -> {}
                 is UiState.Success -> {
+                    // 갱신할 때 북마크가 비어 있는 지 여부
                     if (it.data.isEmpty()) {
                         binding.bookmark.visibility = View.GONE
                         binding.bookmarkRv.visibility = View.GONE

@@ -13,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -27,6 +26,7 @@ class DetailFragment(private val id: String) : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
+        // DialogFragment 라서 설정
         dialog?.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
@@ -39,7 +39,7 @@ class DetailFragment(private val id: String) : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
-
+        // observer 호출 및 ViewModel 의 사진 불러 오는 & 북마크 관련 함수 호출
         observer()
         detailViewModel.getDetailPhotos(id)
         detailViewModel.checkBookmark(id)
@@ -51,16 +51,17 @@ class DetailFragment(private val id: String) : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnDetailBookmark.setOnClickListener {
+            // 북마크 활성화 여부에 따라 추가 혹은 삭제
             if (binding.btnDetailBookmark.alpha == 0.3f) {
                 detailViewModel.addBookmark(id)
             }
             else detailViewModel.deleteBookmark(id)
         }
-
+        // 다운로드 버튼
         binding.btnDownload.setOnClickListener {
             useDownloadManager()
         }
-
+        // 닫을 때 북마크 갱신
         binding.btnClose.setOnClickListener {
             bookmarkClickListener.onBookmarkClick()
             dismiss()
@@ -68,6 +69,7 @@ class DetailFragment(private val id: String) : DialogFragment() {
     }
 
     private fun observer() {
+        // 사진 로드
         detailViewModel.photoState.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Failure -> {
@@ -88,6 +90,7 @@ class DetailFragment(private val id: String) : DialogFragment() {
                 }
             }
         }
+        // 북마크 로드
         detailViewModel.checkBookmarkState.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Failure -> {
@@ -102,6 +105,7 @@ class DetailFragment(private val id: String) : DialogFragment() {
                 }
             }
         }
+        // 북마크에 사진이 있는지 없는지 여부
         detailViewModel.bookmarkState.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Failure -> {
@@ -115,6 +119,7 @@ class DetailFragment(private val id: String) : DialogFragment() {
             }
         }
     }
+    // 사진 다운로드
     private fun useDownloadManager(){
         val currentTimeMillis = System.currentTimeMillis()
         val fileName = currentTimeMillis.toString()

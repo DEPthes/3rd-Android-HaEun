@@ -5,10 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.example.myapplication.R
 import com.example.myapplication.data.db.BookmarkEntity
 import com.example.myapplication.databinding.ItemBookmarkRvBinding
-import com.example.myapplication.entity.NewPhotoEntity
 
 class RvBookmarkAdapter : RecyclerView.Adapter<RvBookmarkAdapter.ViewHolder>() {
     var list = listOf<BookmarkEntity>()

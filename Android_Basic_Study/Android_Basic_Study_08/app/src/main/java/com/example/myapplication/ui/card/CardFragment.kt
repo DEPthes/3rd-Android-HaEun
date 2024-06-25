@@ -23,10 +23,11 @@ class CardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCardBinding.inflate(inflater, container, false)
-
+        // 무한 이미지 로드
         randomImagesAdapter = RvRandomImagesAdapter().apply {
             setItemClickListener(object : RvRandomImagesAdapter.OnItemClickListener{
                 override fun onClick(position: Int) {
+                    // 추가로 하나씩 더 불러옴
                     binding.viewPager.currentItem = position + 1
                 }
             })
@@ -55,7 +56,7 @@ class CardFragment : Fragment() {
         }
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            // Paging 완료되면 호출
+            // Paging 완료 되면 호출
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 randomViewModel.getRandomPhotos(1)

@@ -3,7 +3,6 @@ package com.example.myapplication.data.services
 import com.example.myapplication.data.dto.PhotoDetailDTO
 import com.example.myapplication.data.dto.RandomPhotoDTO
 import com.example.myapplication.data.dto.UnsplashDTOItem
-import com.example.myapplication.entity.DetailPhotoEntity
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
