@@ -20,6 +20,9 @@ class DetailPhotoViewModel : ViewModel() {
 
     private lateinit var bookmarkUrl : String
     lateinit var downloadLink : String
+    lateinit var userName : String
+    lateinit var des : String
+    lateinit var tags : List<String>
 
     fun getDetailPhotos(id: String) {
         _photoState.value = UiState.Loading
@@ -30,6 +33,9 @@ class DetailPhotoViewModel : ViewModel() {
                     _photoState.value = UiState.Success(it)
                     bookmarkUrl = it.thumb
                     downloadLink = it.downloads
+                    userName = it.username
+                    des = it.description
+                    tags = it.tags
                 }.onFailure {
                     _photoState.value = UiState.Failure(it.message)
                 }

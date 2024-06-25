@@ -6,7 +6,7 @@ import com.example.myapplication.entity.DetailPhotoEntity
 object DetailPhotoMapper {
     fun mapperToResponseEntity(item: PhotoDetailDTO): DetailPhotoEntity {
         return item.run {
-            val tags = this.tags
+            val tags = this.tags.map { it.title }
 
             DetailPhotoEntity(
                 username = this.user.username,

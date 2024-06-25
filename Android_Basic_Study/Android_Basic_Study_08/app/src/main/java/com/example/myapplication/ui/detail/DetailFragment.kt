@@ -79,6 +79,11 @@ class DetailFragment(private val id: String) : DialogFragment() {
                         .load(it.data.thumb)
                         .transform(RoundedCorners(40))
                         .into(binding.detailImg)
+
+                    binding.usernameTxt.text = it.data.username
+                    binding.desTxt.text = it.data.description
+                    binding.tagsTxt.text = it.data.tags.joinToString (" ") { tag -> "#$tag" }
+
                     Log.d("OBS", "성공")
                 }
             }
@@ -92,6 +97,7 @@ class DetailFragment(private val id: String) : DialogFragment() {
                 is UiState.Success -> {
                     if (it.data) binding.btnDetailBookmark.alpha=1f
                     else binding.btnDetailBookmark.alpha=0.3f
+
                     Log.d("OBS", "북마크 로드 성공")
                 }
             }

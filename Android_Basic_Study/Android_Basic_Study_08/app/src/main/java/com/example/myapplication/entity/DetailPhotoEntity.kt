@@ -7,6 +7,6 @@ data class DetailPhotoEntity(
     val id: String,
     val thumb: String,
     val description: String,
-    val tags: List<Tag>,
+    val tags: List<String>,
     val downloads: String
 )
